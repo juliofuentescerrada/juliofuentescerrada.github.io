@@ -1,0 +1,40 @@
+---
+import '../styles/global.css';
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = 'Julio Fuentes — Software Architect & Technical Lead',
+  description = 'Software engineering, architecture, cloud infrastructure and delivery, with a focus on .NET, Angular and Azure.',
+} = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/"><span aria-hidden="true"></span>Julio Fuentes</a>
+        <nav aria-label="Main"><a href="/#contact">Contact</a></nav>
+      </div>
+    </header>
+    <main id="main" tabindex="-1"><slot /></main>
+    <footer id="contact">
+      <div class="container footer-inner">
+        <h2>Let’s talk.</h2>
+        <div class="contact-links">
+          <a href="mailto:juliofuentescerrada@outlook.com">juliofuentescerrada@outlook.com</a>
+          <a href="https://www.linkedin.com/in/juliofuentescerrada/">LinkedIn</a>
+          <a href="https://github.com/juliofuentescerrada">GitHub</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
