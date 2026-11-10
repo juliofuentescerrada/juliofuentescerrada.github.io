@@ -1,6 +1,6 @@
 # Roadmap
 
-Milestones for building the site, in order. Each one ends with something deployed. Tick tasks as they are completed. Project context is in [README.md](./README.md); contributor rules are in [AGENTS.md](./AGENTS.md). The M0 application foundation is deployed on GitHub Pages; browser QA remains pending. Content publication requires owner-supplied or owner-validated facts; retain placeholders in unpublished entries.
+Milestones for building the site, in order. Each one ends with something deployed. Tick tasks as they are completed. Project context is in [README.md](./README.md); contributor rules are in [AGENTS.md](./AGENTS.md). The M0 application foundation is deployed on GitHub Pages. The owner authorized proceeding to M1 while browser QA remains pending. Content publication requires owner-supplied or owner-validated facts; retain placeholders in unpublished entries.
 
 ## M0 · Foundation and first deployment
 
@@ -24,15 +24,17 @@ Milestones for building the site, in order. Each one ends with something deploye
 
 **Goal:** the complete home page from the prototype, with real content.
 
-- [ ] Components: `SectionHeading`, `StatBand`, `StackBand`, `ProjectRow`, `NoteCard`
-- [ ] Hero with highlighted word and both calls to action
-- [ ] At-a-glance figures and stack band
-- [ ] Define the projects collection in `content.config.ts` and one Markdown file per project
-- [ ] Projects section: five public collection-backed cards linking to repositories; `draft` hides the whole project and `caseStudyPublished` defaults to false
-- [ ] “How I develop with AI” on the inverted light section
-- [ ] Technologies table
-- [ ] Experience timeline: titles and dates only, no employer names
+- [x] Components: `SectionHeading`, `StatBand`, `StackBand`, `ProjectRow`, `NoteCard`
+- [x] Hero with highlighted word and both calls to action
+- [x] At-a-glance figures and stack band
+- [x] Define the projects collection in `content.config.ts` and one Markdown file per project
+- [x] Projects section: five public collection-backed cards linking to repositories; `draft` hides the whole project and `caseStudyPublished` defaults to false
+- [x] “How I develop with AI” on the inverted light section
+- [x] Technologies table
+- [x] Experience timeline: titles and dates only, no employer names
 - [ ] Responsive pass at 360px, 768px and 1280px
+
+**Implementation notes:** the notes CTA targets the home’s empty notes section until M3; no sample notes or case-study links are published. The owner requested retaining links to the five private repositories. Visual and keyboard QA are pending because the browser is unavailable. Explicit drafts and projects with an omitted `draft` flag were verified as hidden in a temporary build fixture.
 
 **Done when:** the home page matches the prototype and every link works.
 

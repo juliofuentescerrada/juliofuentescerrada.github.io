@@ -1,0 +1,25 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  description?: string;
+}
+const { id, title, description } = Astro.props;
+---
+<div class="section-heading">
+  <h2 id={id}>{title}</h2>
+  {description && <p>{description}</p>}
+</div>
+
+<style>
+  .section-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px 48px;
+    margin-bottom: 40px;
+  }
+  h2 { flex: 1 1 360px; min-width: 0; }
+  p { flex: 1 1 320px; max-width: 460px; margin: 0; }
+</style>

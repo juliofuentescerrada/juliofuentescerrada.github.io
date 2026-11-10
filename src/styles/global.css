@@ -24,7 +24,12 @@ a { color: var(--ink); text-underline-offset: 0.2em; }
 a:hover { color: var(--accent); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
 ::selection { color: var(--ground); background: var(--accent); }
-h1, h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
+h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
+h2 { margin: 0; color: inherit; font-size: clamp(40px, 6vw, 80px); line-height: 1; letter-spacing: -0.03em; }
+h3 { color: inherit; }
+main > section:not(.how-section) h2, main > section:not(.how-section) h3 { color: var(--ink); }
+section[id], footer[id] { scroll-margin-top: 24px; }
+.section { padding-block: 96px 72px; }
 .container { width: min(100%, 1200px); margin-inline: auto; padding-inline: 24px; }
 .skip-link { position: absolute; left: 24px; top: 12px; padding: 12px; background: var(--ground); transform: translateY(-200%); }
 .skip-link:focus { transform: translateY(0); }
@@ -33,20 +38,28 @@ h1, h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
 .header-inner a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; }
 .brand { gap: 10px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; }
 .brand span { width: 12px; height: 12px; background: var(--accent); }
-nav { font-size: 15px; }
+nav { display: flex; flex-wrap: wrap; gap: 4px 28px; font-size: 15px; }
+nav a { min-width: 44px; justify-content: center; }
 .hero { padding-block: 96px 72px; display: flex; flex-direction: column; gap: 36px; }
 .hero-role { margin: 0; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 14px; }
 h1 { margin: 0; color: var(--ink); font-size: clamp(44px, 8.4vw, 112px); line-height: 0.98; letter-spacing: -0.035em; }
 h1 span { color: var(--accent); }
-.hero-description { margin: 0; max-width: 600px; font-size: 19px; }
+.hero-bottom { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 32px 64px; }
+.hero-description { flex: 1 1 420px; min-width: 0; margin: 0; max-width: 600px; font-size: 19px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.button { display: inline-flex; align-items: center; justify-content: center; min-height: 56px; padding: 12px 28px; border: 1px solid var(--ink); font-size: 17px; font-weight: 600; text-decoration: none; }
+.button:hover { border-color: var(--accent); }
+.button-primary { color: var(--ground); background: var(--accent); border-color: var(--accent); }
+.button-primary:hover { color: var(--ground); text-decoration: underline; }
 footer { color: var(--ground); background: var(--accent); }
 .footer-inner { padding-block: 88px 56px; display: flex; flex-direction: column; gap: 40px; }
-h2 { margin: 0; font-size: clamp(56px, 12vw, 168px); line-height: 0.92; letter-spacing: -0.04em; }
+footer h2 { margin: 0; font-size: clamp(56px, 12vw, 168px); line-height: 0.92; letter-spacing: -0.04em; }
 .contact-links { display: flex; flex-wrap: wrap; gap: 4px 40px; padding-top: 20px; border-top: 2px solid var(--ground); font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 20px; }
 .contact-links a { display: inline-flex; align-items: center; min-height: 48px; color: var(--ground); overflow-wrap: anywhere; min-width: 0; }
 .contact-links a:hover { text-decoration-thickness: 2px; }
 footer :focus-visible { outline-color: var(--ground); }
 @media (max-width: 600px) {
+  .section { padding-block: 56px; }
   .hero { padding-block: 64px 56px; gap: 28px; }
   .hero-description { font-size: 17px; }
   .footer-inner { padding-block: 56px 40px; }

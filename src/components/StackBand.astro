@@ -1,0 +1,14 @@
+---
+interface Props { items: readonly string[] }
+const { items } = Astro.props;
+---
+<section class="stack-band" aria-label="Core stack">
+  <ul class="container">
+    {items.map((item) => <li>{item}</li>)}
+  </ul>
+</section>
+
+<style>
+  .stack-band { background: var(--accent); color: var(--ground); }
+  ul { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 40px; padding-block: 28px; margin-block: 0; list-style: none; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(28px, 4.4vw, 56px); line-height: 1.1; letter-spacing: -0.02em; }
+</style>

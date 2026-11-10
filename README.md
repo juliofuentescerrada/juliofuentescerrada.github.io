@@ -6,7 +6,9 @@ This README describes the site and its planned extensions. Contributor instructi
 
 ## Current status
 
-The Astro foundation is implemented: a static hero page, base layout, local fonts and GitHub Pages workflow. Projects, notes and the remaining home sections are planned. Run `npm install` and `npm run dev` locally (Node 22.23.4 or newer). The first GitHub Pages deployment succeeded and the source is configured as GitHub Actions. Visual review at phone width remains pending.
+The home page includes the hero, at-a-glance figures, five collection-backed project cards, AI workflow, technologies and experience. Project copy comes from the approved prototype; experience shows titles and dates only. Notes show an empty state until M3, and case-study pages begin in M2. Run `npm install` and `npm run dev` locally (Node 22.23.4 or newer). GitHub Pages is configured to deploy with GitHub Actions. Browser-based visual and keyboard review remains pending.
+
+The five project repositories are currently private. Their links are retained at the owner’s request and require repository access; this site does not change their visibility.
 
 ## Purpose
 
@@ -41,6 +43,7 @@ src/
   styles/global.css        Design tokens and base styles
   layouts/Base.astro       <head>, navigation, footer
   components/              SectionHeading, ProjectRow, NoteCard, StatBand, TagList…
+  data/home.ts             Approved home copy: AI practices, technologies, experience
   content.config.ts        Collection schemas
   content/
     projects/              One Markdown file per case study
@@ -74,7 +77,8 @@ tags: [RAG, Retrieval evaluation, MCP]
 stack: [.NET API, Angular, PostgreSQL + pgvector, Microsoft Foundry]
 repo: https://github.com/juliofuentescerrada/arcana
 live: https://…                        # optional
-status: Live demo available
+liveLabel: Live demo                   # optional, defaults to Live demo
+status: Live demo available            # optional
 draft: false
 caseStudyPublished: false              # publish the case study separately
 ```
@@ -97,7 +101,9 @@ Body sections: The problem, What I tried, What worked, The trade-off, What I wou
 
 **Topics:** Applied AI, Azure, .NET, Angular, Architecture, Data, AI-assisted development.
 
-Entries with `draft: true` are excluded from public pages, indexes and feeds. A non-draft project appears on the home page even when `caseStudyPublished` is false; its card links to its repository. Generate case-study routes and previous/next links only for non-draft projects with `caseStudyPublished: true`. Notes retain the single `draft` publication flag.
+Project `draft` defaults to `true`; `caseStudyPublished` defaults to `false`. A non-draft project appears on the home page even when its case study is unpublished; its card links to its repository and optional demo. All five initial project cards are public, with empty, unpublished case-study bodies. M2 will generate case-study routes and previous/next links only for non-draft projects with `caseStudyPublished: true`.
+
+The planned notes collection retains the single `draft` publication flag. Draft entries must be excluded from public pages, indexes and feeds. `NoteCard` is prepared for that milestone; M1 does not publish the prototype’s sample notes or introduce note routes.
 
 ## Design system
 

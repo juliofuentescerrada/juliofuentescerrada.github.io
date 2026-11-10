@@ -1,0 +1,48 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props {
+  project: CollectionEntry<'projects'>;
+  position: number;
+}
+const { project, position } = Astro.props;
+const { title, focus, summary, tags, repo, live, liveLabel } = project.data;
+---
+<article class="project-row" aria-labelledby={`project-${project.id}`}>
+  <span class="project-number" aria-hidden="true">{String(position).padStart(2, '0')}</span>
+  <div class="project-heading">
+    <h3 id={`project-${project.id}`}>{title}</h3>
+    <p class="project-focus">{focus}</p>
+  </div>
+  <div class="project-detail">
+    <p class="project-summary">{summary}</p>
+    <ul class="project-tags" aria-label={`${title} topics`}>
+      {tags.map((tag) => <li>{tag}</li>)}
+    </ul>
+    <div class="project-links">
+      {live && <a href={live} aria-label={`${title}: ${liveLabel}`}>{liveLabel}</a>}
+      <a href={repo} aria-label={`${title} repository`}>Repository</a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .project-row { display: grid; grid-template-columns: 72px minmax(0, 2fr) minmax(0, 3fr); gap: 16px 40px; padding-block: 36px; border-top: 1px solid var(--line); }
+  .project-row:last-child { border-bottom: 1px solid var(--line); }
+  .project-number { padding-top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--accent); }
+  h3 { margin: 0; font-size: clamp(34px, 4.6vw, 56px); line-height: 1.05; letter-spacing: -0.025em; }
+  .project-focus { margin: 8px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--muted); }
+  .project-detail { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+  .project-summary { margin: 0; font-size: 17px; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 0; margin: 0; list-style: none; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
+  .project-links { display: flex; flex-wrap: wrap; gap: 0 28px; font-size: 15px; }
+  .project-links a { display: inline-flex; align-items: center; min-height: 44px; }
+  @media (max-width: 900px) {
+    .project-row { grid-template-columns: 40px minmax(0, 1fr); gap: 16px 24px; }
+    .project-detail { grid-column: 2; }
+  }
+  @media (max-width: 600px) {
+    .project-row { grid-template-columns: minmax(0, 1fr); gap: 16px; padding-block: 28px; }
+    .project-number { padding: 0; }
+    .project-detail { grid-column: 1; }
+  }
+</style>

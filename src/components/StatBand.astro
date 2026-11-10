@@ -1,0 +1,26 @@
+---
+interface Props {
+  stats: { value: string; label: string }[];
+}
+const { stats } = Astro.props;
+---
+<section class="stat-band" aria-label="At a glance">
+  <dl class="container">
+    {stats.map(({ value, label }) => (
+      <div>
+        <dt>{label}</dt>
+        <dd>{value}</dd>
+      </div>
+    ))}
+  </dl>
+</section>
+
+<style>
+  .stat-band { border-block: 1px solid var(--line); }
+  dl { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-block: 0; }
+  dl > div { display: flex; flex-direction: column; gap: 10px; padding: 32px 24px 32px 0; }
+  dt { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--muted); }
+  dd { order: -1; margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 64px; line-height: 1; letter-spacing: -0.03em; color: var(--ink); font-variant-numeric: tabular-nums; }
+  @media (max-width: 900px) { dl { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 400px) { dl > div { padding-right: 16px; } dd { font-size: 56px; } }
+</style>

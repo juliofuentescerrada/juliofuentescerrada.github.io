@@ -1,0 +1,25 @@
+---
+interface Props {
+  title: string;
+  summary: string;
+  topic: string;
+  project?: string;
+  href: string;
+}
+const { title, summary, topic, project, href } = Astro.props;
+---
+<a class="note-card" href={href}>
+  <span class="note-meta">{[project, topic].filter(Boolean).join(' · ')}</span>
+  <div>
+    <h3>{title}</h3>
+    <p>{summary}</p>
+  </div>
+</a>
+
+<style>
+  .note-card { display: flex; flex-direction: column; justify-content: space-between; gap: 24px; min-width: 0; min-height: 260px; padding: 28px; background: var(--surface); border: 1px solid var(--line); text-decoration: none; }
+  .note-card:hover { border-color: var(--accent); }
+  .note-meta { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent); }
+  h3 { margin: 0; font-size: 26px; line-height: 1.15; letter-spacing: -0.01em; }
+  p { margin: 12px 0 0; font-size: 15px; color: var(--body); }
+</style>

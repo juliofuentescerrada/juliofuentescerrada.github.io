@@ -1,10 +1,129 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import StatBand from '../components/StatBand.astro';
+import StackBand from '../components/StackBand.astro';
+import ProjectRow from '../components/ProjectRow.astro';
+import { home } from '../data/home';
+
+const projects = (await getCollection('projects', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id));
+const liveProjects = projects.filter(({ data }) => data.live);
+const liveNames = new Intl.ListFormat('en').format(liveProjects.map(({ data }) => data.title));
+const stats = [
+  { value: '20+', label: 'years in software engineering' },
+  { value: '5', label: 'engineering teams coordinated today' },
+  { value: String(projects.length), label: 'personal projects' },
+  { value: String(liveProjects.length), label: liveNames ? `of them live: ${liveNames}` : 'live projects' },
+];
 ---
 <Base>
   <section class="container hero" aria-labelledby="hero-title">
     <p class="hero-role">Software Architect &amp; Technical Lead · Madrid, Spain</p>
     <h1 id="hero-title">I build applications and the <span>platforms</span> that support them.</h1>
-    <p class="hero-description">Over 20 years in software engineering across backend and frontend development, architecture, cloud infrastructure and delivery, with a focus on .NET, Angular and Azure.</p>
+    <div class="hero-bottom">
+      <p class="hero-description">Over 20 years in software engineering across backend and frontend development, architecture, cloud infrastructure and delivery, with a focus on .NET, Angular and Azure.</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="#projects">See the projects</a>
+        <a class="button" href="#notes">Read the notes</a>
+      </div>
+    </div>
+  </section>
+
+  <StatBand stats={stats} />
+  <StackBand items={home.coreStack} />
+
+  <section id="projects" class="container section" aria-labelledby="projects-title">
+    <SectionHeading
+      id="projects-title"
+      title="Projects"
+      description="Infrastructure, application development, applied AI, data engineering and product delivery."
+    />
+    {projects.map((project, index) => <ProjectRow project={project} position={index + 1} />)}
+  </section>
+
+  <section id="notes" class="container notes-section" aria-labelledby="notes-title">
+    <SectionHeading
+      id="notes-title"
+      title="Notes"
+      description="Short write-ups of what I learn while building these projects: what I tried, what worked and what I would change."
+    />
+    <p class="notes-empty">No notes published yet.</p>
+  </section>
+
+  <section id="how" class="how-section" aria-labelledby="how-title">
+    <div class="container section">
+      <SectionHeading
+        id="how-title"
+        title="How I develop with AI"
+        description="I use Codex and Claude Code as part of my engineering workflow, and OpenSpec to connect requirements, design decisions, implementation tasks and verification."
+      />
+      <div class="practice-grid">
+        {home.practices.map(({ title, description }) => (
+          <div class="practice">
+            <h3>{title}</h3>
+            <p>{description}</p>
+          </div>
+        ))}
+        <div class="practice-responsibility">
+          <p>I remain responsible for architecture, trade-offs and acceptance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="technologies" class="container technologies-section" aria-labelledby="technologies-title">
+    <SectionHeading id="technologies-title" title="Technologies" />
+    <dl class="technologies-list">
+      {home.technologies.map(({ category, items }) => (
+        <div>
+          <dt>{category}</dt>
+          <dd>{items.join(' · ')}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <section id="experience" class="container experience-section" aria-labelledby="experience-title">
+    <SectionHeading id="experience-title" title="Experience" />
+    <ol class="experience-list">
+      {home.experience.map(({ period, title }) => (
+        <li>
+          <span class="experience-period">{period}</span>
+          <h3>{title}</h3>
+        </li>
+      ))}
+    </ol>
+    <a class="experience-link" href="https://www.linkedin.com/in/juliofuentescerrada/">Full professional background on LinkedIn <span aria-hidden="true">→</span></a>
   </section>
 </Base>
+
+<style>
+  .notes-section { padding-block: 24px 96px; }
+  .notes-empty { margin: 0; padding-block: 28px; border-block: 1px solid var(--line); color: var(--muted); }
+  .how-section { color: var(--invert-ink); background: var(--invert-ground); }
+  .practice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 0 40px; border-top: 2px solid var(--invert-ink); }
+  .practice { padding-block: 24px; border-bottom: 1px solid var(--line); }
+  .practice h3 { margin: 0 0 8px; font-size: 22px; }
+  .practice p { margin: 0; font-size: 15px; }
+  .practice-responsibility { display: flex; align-items: center; padding: 24px; margin-block: 24px; background: var(--ground); color: var(--ink); }
+  .practice-responsibility p { margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 19px; line-height: 1.35; }
+  .technologies-section { padding-block: 96px 48px; }
+  .technologies-list { margin: 0; border-top: 1px solid var(--line); }
+  .technologies-list > div { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 40px; padding-block: 20px; border-bottom: 1px solid var(--line); }
+  .technologies-list dt { flex: 1 1 240px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--muted); }
+  .technologies-list dd { flex: 3 1 420px; margin: 0; min-width: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 22px; color: var(--ink); }
+  .experience-section { padding-block: 48px 96px; }
+  .experience-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+  .experience-list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 40px; padding-block: 28px; border-bottom: 1px solid var(--line); }
+  .experience-period { flex: 1 1 240px; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--muted); }
+  .experience-list li:first-child .experience-period { color: var(--accent); }
+  .experience-list h3 { flex: 3 1 420px; min-width: 0; margin: 0; font-size: 28px; line-height: 1.15; letter-spacing: -0.01em; }
+  .experience-link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-top: 16px; font-weight: 600; color: var(--accent); }
+  @media (max-width: 600px) {
+    .notes-section { padding-bottom: 56px; }
+    .technologies-section { padding-block: 56px 28px; }
+    .experience-section { padding-block: 28px 56px; }
+  }
+</style>
