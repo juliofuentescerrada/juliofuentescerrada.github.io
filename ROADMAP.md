@@ -1,6 +1,6 @@
 # Roadmap
 
-Milestones for building the site, in order. Each one ends with something deployed. Tick tasks as they are completed. Project context is in [README.md](./README.md); contributor rules are in [AGENTS.md](./AGENTS.md). The M0 application foundation is implemented; browser QA and deployment verification remain pending. Content publication requires owner-supplied or owner-validated facts; retain placeholders in unpublished entries.
+Milestones for building the site, in order. Each one ends with something deployed. Tick tasks as they are completed. Project context is in [README.md](./README.md); contributor rules are in [AGENTS.md](./AGENTS.md). The M0 application foundation is deployed on GitHub Pages; browser QA remains pending. Content publication requires owner-supplied or owner-validated facts; retain placeholders in unpublished entries.
 
 ## M0 · Foundation and first deployment
 
@@ -15,7 +15,7 @@ Milestones for building the site, in order. Each one ends with something deploye
 - [x] Install and configure Astro checks; run `npx astro check` and `npm run build` in CI without warnings
 - [x] Temporary home page with the hero only
 - [x] Add `.github/workflows/deploy.yml` with validation, build and deployment
-- [ ] Verify Pages source is GitHub Actions and the first deployment succeeds
+- [x] Verify Pages source is GitHub Actions and the first deployment succeeds ([first successful run](https://github.com/juliofuentescerrada/juliofuentescerrada.github.io/actions/runs/42908371903))
 - [ ] Visually verify the hero, keyboard access and layout at phone width (browser unavailable in this session)
 
 **Done when:** a push to `main` publishes the hero at `https://juliofuentescerrada.github.io` and it reads well on a phone.

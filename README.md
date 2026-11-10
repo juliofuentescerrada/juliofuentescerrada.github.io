@@ -6,7 +6,7 @@ This README describes the site and its planned extensions. Contributor instructi
 
 ## Current status
 
-The Astro foundation is implemented: a static hero page, base layout, local fonts and GitHub Pages workflow. Projects, notes and the remaining home sections are planned. Run `npm install` and `npm run dev` locally (Node 22.23.4 or newer). Actual deployment and the Pages source setting still need verification in GitHub.
+The Astro foundation is implemented: a static hero page, base layout, local fonts and GitHub Pages workflow. Projects, notes and the remaining home sections are planned. Run `npm install` and `npm run dev` locally (Node 22.23.4 or newer). The first GitHub Pages deployment succeeded and the source is configured as GitHub Actions. Visual review at phone width remains pending.
 
 ## Purpose
 

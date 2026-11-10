@@ -22,6 +22,6 @@ Write site content in English. Never invent facts: retain placeholders and keep 
 
 ## Commits, Pull Requests & Agent Workflow
 
-There is no commit history yet. Use small, focused commits with descriptive imperative messages. PRs should explain purpose and validation, link relevant issues when available, and include screenshots for visual changes.
+Follow the initial commit’s descriptive imperative style. Use small, focused commits. PRs should explain purpose and validation, link relevant issues when available, and include screenshots for visual changes.
 
 Work on one roadmap milestone at a time. Tick completed tasks in the same change only when supported by evidence. Do not complete missing portfolio content on the owner’s behalf.
