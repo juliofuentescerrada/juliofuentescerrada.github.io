@@ -56,6 +56,8 @@ That is the version usually drawn as three boxes: retrieve, augment, generate. A
 7. **Validate the citations:** every cited rule must exist and must be among the sources the model was given. If one fails, the model gets one retry; if that fails too, Arcana says it does not know.
 8. **Stream** the answer to the browser as it is written.
 
+![Once per rulebook release, the rulebook is parsed and validated, split into chunks and embedded, and the embeddings are stored in PostgreSQL with pgvector. On every question, Arcana finds the cards it names, searches the stored chunks, reranks the results, adds the rules they cite, generates an answer, validates its citations and streams it. Reranking that finds nothing relevant, or citations that fail twice, lead to “I don’t know” with the closest rules. Generation is the only step that writes.](/notes/arcana/rag-pipeline.svg)
+
 The backend is .NET 10 with `Microsoft.Extensions.AI` for model calls, the web app is Angular, and it runs on Azure.
 
 ## What worked
