@@ -10,7 +10,7 @@ takeaways:
   - "A proposal step that requires data turns “obvious” features into explicit, defensible choices."
   - "Record who decided what. A design document that separates the owner’s decisions from the agent’s recommendations is a better log than commit history."
   - "Turn every surprise into a project rule; the agent’s context file is the project’s long-term memory."
-draft: true
+draft: false
 ---
 
 ## The problem
