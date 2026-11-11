@@ -1,0 +1,104 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { formatNoteDate, getVisibleNotes, topicSlug } from '../../lib/notes';
+
+export const getStaticPaths = (async () => {
+  const notes = await getVisibleNotes();
+  return notes.map((note, index) => ({
+    params: { id: note.id },
+    props: {
+      note,
+      next: notes[index + 1],
+      sameProject: notes.filter((other) => other.id !== note.id && note.data.project && other.data.project?.id === note.data.project.id).slice(0, 2),
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { note, next, sameProject } = Astro.props;
+const { title, summary, date, topic, tags, takeaways, draft } = note.data;
+const project = note.data.project ? await getEntry(note.data.project) : undefined;
+const projectLink = project
+  ? project.data.caseStudyPublished
+    ? { href: `/projects/${project.id}/`, label: `${project.data.title} case study` }
+    : { href: project.data.repo, label: `${project.data.title} repository` }
+  : undefined;
+const { Content } = await render(note);
+---
+<Base title={`${title} — Julio Fuentes`} description={summary}>
+  <div class="note-page">
+    <header class="note-header">
+      <p class="note-crumbs"><a href="/notes/">Notes</a> / <a href={`/notes/topics/${topicSlug(topic)}/`}>{topic}</a></p>
+      <h1>{title}</h1>
+      <p class="note-summary">{summary}</p>
+      <div class="note-meta">
+        <time datetime={date.toISOString().slice(0, 10)}>{formatNoteDate(date)}</time>
+        {project && projectLink && <span>Project: <a href={projectLink.href}>{project.data.title}</a></span>}
+        {tags.length > 0 && <span>{tags.join(' · ')}</span>}
+        {draft && <span class="note-draft">Draft — only visible in development</span>}
+      </div>
+    </header>
+
+    <article class="note-body">
+      <Content />
+      <section class="note-takeaways" aria-labelledby="takeaways-title">
+        <h2 id="takeaways-title">Takeaways</h2>
+        <ul>
+          {takeaways.map((takeaway) => <li>{takeaway}</li>)}
+        </ul>
+      </section>
+    </article>
+
+    {(projectLink || sameProject.length > 0) && (
+      <section class="note-related" aria-labelledby="related-title">
+        <h2 id="related-title">Related</h2>
+        {projectLink && <a href={projectLink.href}>{projectLink.label} <span aria-hidden="true">→</span></a>}
+        {sameProject.map((other) => <a href={`/notes/${other.id}/`}>{other.data.title} <span aria-hidden="true">→</span></a>)}
+      </section>
+    )}
+
+    <nav class="note-nav" aria-label="More notes">
+      <a href="/notes/"><span aria-hidden="true">←</span> All notes</a>
+      {next && <a href={`/notes/${next.id}/`}>Next note <span aria-hidden="true">→</span></a>}
+    </nav>
+  </div>
+</Base>
+
+<style>
+  .note-page { width: min(100%, 720px); margin-inline: auto; padding: 0 24px 72px; }
+  .note-header { display: flex; flex-direction: column; gap: 18px; padding-block: 56px 32px; }
+  .note-crumbs { margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--muted); }
+  .note-crumbs a { color: var(--muted); }
+  .note-crumbs a:hover { color: var(--accent); }
+  h1 { font-size: clamp(36px, 5.4vw, 64px); line-height: 1.12; letter-spacing: -0.02em; }
+  .note-summary { margin: 0; font-size: 19px; color: var(--ink); }
+  .note-meta { display: flex; flex-wrap: wrap; gap: 4px 24px; padding-block: 14px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--line); font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
+  .note-meta a { color: var(--accent); }
+  .note-draft { color: var(--accent); }
+
+  .note-body { display: flex; flex-direction: column; gap: 14px; font-size: 17px; line-height: 1.7; }
+  .note-body :global(h2) { margin: 26px 0 0; font-size: 26px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; color: var(--ink); }
+  .note-body :global(h3) { margin: 12px 0 0; font-size: 20px; font-weight: 600; color: var(--ink); }
+  .note-body :global(p) { margin: 0; }
+  .note-body :global(strong) { font-weight: 600; color: var(--ink); }
+  .note-body :global(ul), .note-body :global(ol) { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 10px; }
+  .note-body :global(code) { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; overflow-wrap: anywhere; }
+  .note-body :global(pre) { margin: 0; padding: 20px; overflow-x: auto; background: var(--invert-ground); color: var(--surface); border-radius: 8px; font-size: 13px; line-height: 1.6; }
+  .note-body :global(pre code) { font-size: inherit; overflow-wrap: normal; }
+  .note-body :global(img) { display: block; max-width: 100%; height: auto; margin: 8px auto; }
+  .note-body :global(table) { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; font-size: 15px; }
+  .note-body :global(th) { padding: 10px 16px 10px 0; text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 400; color: var(--muted); border-bottom: 1px solid var(--ink); }
+  .note-body :global(td) { padding: 12px 16px 12px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .note-body :global(td:not(:first-child)) { white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+  .note-takeaways { display: flex; flex-direction: column; gap: 12px; margin-top: 26px; padding: 24px; background: var(--accent-surface); border-radius: 8px; }
+  .note-takeaways h2 { margin: 0; font-size: 20px; }
+  .note-takeaways ul { gap: 8px; padding-left: 20px; font-size: 16px; color: var(--ink); }
+
+  .note-related { display: flex; flex-direction: column; gap: 4px; margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--ink); }
+  .note-related h2 { margin: 0 0 4px; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 400; letter-spacing: 0; color: var(--muted); }
+  .note-related a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 500; color: var(--accent); }
+  .note-nav { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; margin-top: 32px; }
+  .note-nav a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 500; }
+</style>

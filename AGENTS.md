@@ -18,7 +18,7 @@ Use strict TypeScript, Astro components and plain CSS custom properties. Use two
 
 Follow the prototype and documented design tokens; ask before adding colors, fonts or dependencies. Preserve the original prototype and font licenses. Experience shows titles and dates only, overriding prototype descriptions.
 
-Write site content in English. Never invent facts: retain placeholders and keep incomplete entries unpublished. Do not name employers, clients or their products. Project and note copy comes from collections, never components.
+Write site content in English. Never invent facts: retain placeholders and keep incomplete entries unpublished. To research, draft, illustrate or publish a note about a project, follow [`.claude/skills/write-project-note/SKILL.md`](./.claude/skills/write-project-note/SKILL.md). Do not name employers, clients or their products. Project and note copy comes from collections, never components.
 
 ## Commits, Pull Requests & Agent Workflow
 

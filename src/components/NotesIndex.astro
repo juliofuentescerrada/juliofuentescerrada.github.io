@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import NoteList from './NoteList.astro';
+import { topicSlug, type Note, type NoteTopic } from '../lib/notes';
+
+interface Props {
+  notes: Note[];
+  topics: NoteTopic[];
+  current?: NoteTopic;
+}
+const { notes, topics, current } = Astro.props;
+const title = current ? `${current} notes — Julio Fuentes` : 'Notes — Julio Fuentes';
+const description = current
+  ? `Notes on ${current} from my personal projects: what I tried, what worked and what I would change.`
+  : 'What I learn while building my projects: what I tried, what worked and what I would change.';
+---
+<Base title={title} description={description}>
+  <div class="container notes-page">
+    <section class="notes-intro">
+      <h1>Notes</h1>
+      <p>What I learn while building my projects: what I tried, what worked and what I would change. One topic per note.</p>
+    </section>
+
+    {topics.length > 1 && (
+      <nav class="topic-filter" aria-label="Filter by topic">
+        <a href="/notes/" aria-current={current ? undefined : 'page'}>All</a>
+        {topics.map((topic) => (
+          <a href={`/notes/topics/${topicSlug(topic)}/`} aria-current={topic === current ? 'page' : undefined}>{topic}</a>
+        ))}
+      </nav>
+    )}
+
+    {notes.length > 0 ? <NoteList notes={notes} /> : <p class="notes-empty">No notes published yet.</p>}
+
+    <div class="notes-footer">
+      <p>{notes.length === 1 ? '1 note' : `${notes.length} notes`}</p>
+      <a href="/rss.xml">RSS feed <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .notes-page { padding-bottom: 72px; }
+  .notes-intro { display: flex; flex-direction: column; gap: 16px; padding-block: 64px 40px; }
+  .notes-intro h1 { font-size: clamp(56px, 11vw, 144px); line-height: 1.08; letter-spacing: -0.02em; }
+  .notes-intro p { margin: 0; max-width: 640px; font-size: 18px; }
+  .topic-filter { display: flex; flex-wrap: wrap; gap: 8px; padding-bottom: 32px; font-size: 14px; }
+  .topic-filter a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; text-decoration: none; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; }
+  .topic-filter a:hover { border-color: var(--accent); }
+  .topic-filter a[aria-current='page'] { color: var(--ground); background: var(--ink); border-color: var(--ink); }
+  .notes-empty { margin: 0; padding-block: 28px; border-block: 1px solid var(--line); color: var(--muted); }
+  .notes-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; padding-top: 24px; }
+  .notes-footer p { margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--muted); }
+  .notes-footer a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 500; color: var(--accent); }
+</style>

@@ -1,0 +1,17 @@
+---
+import type { GetStaticPaths } from 'astro';
+import NotesIndex from '../../../components/NotesIndex.astro';
+import { getVisibleNotes, topicSlug, topicsInUse } from '../../../lib/notes';
+
+export const getStaticPaths = (async () => {
+  const notes = await getVisibleNotes();
+  const topics = topicsInUse(notes);
+  return topics.map((topic) => ({
+    params: { topic: topicSlug(topic) },
+    props: { topic, topics, notes: notes.filter(({ data }) => data.topic === topic) },
+  }));
+}) satisfies GetStaticPaths;
+
+const { topic, topics, notes } = Astro.props;
+---
+<NotesIndex notes={notes} topics={topics} current={topic} />

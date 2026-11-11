@@ -5,10 +5,14 @@ import SectionHeading from '../components/SectionHeading.astro';
 import StatBand from '../components/StatBand.astro';
 import StackBand from '../components/StackBand.astro';
 import ProjectRow from '../components/ProjectRow.astro';
+import NoteCard from '../components/NoteCard.astro';
+import { getVisibleNotes } from '../lib/notes';
 import { home } from '../data/home';
 
 const projects = (await getCollection('projects', ({ data }) => !data.draft))
   .sort((a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id));
+const projectTitles = new Map(projects.map(({ id, data }) => [id, data.title]));
+const latestNotes = (await getVisibleNotes()).slice(0, 3);
 const liveProjects = projects.filter(({ data }) => data.live);
 const liveNames = new Intl.ListFormat('en').format(liveProjects.map(({ data }) => data.title));
 const stats = [
@@ -26,7 +30,7 @@ const stats = [
       <p class="hero-description">Over 20 years in software engineering across backend and frontend development, architecture, cloud infrastructure and delivery, with a focus on .NET, Angular and Azure.</p>
       <div class="hero-actions">
         <a class="button button-primary" href="#projects">See the projects</a>
-        <a class="button" href="#notes">Read the notes</a>
+        <a class="button" href="/notes/">Read the notes</a>
       </div>
     </div>
   </section>
@@ -48,8 +52,23 @@ const stats = [
       id="notes-title"
       title="Notes"
       description="Short write-ups of what I learn while building these projects: what I tried, what worked and what I would change."
+      link={latestNotes.length > 0 ? { href: '/notes/', label: 'All notes' } : undefined}
     />
-    <p class="notes-empty">No notes published yet.</p>
+    {latestNotes.length > 0 ? (
+      <div class="notes-grid">
+        {latestNotes.map((note) => (
+          <NoteCard
+            title={note.data.title}
+            summary={note.data.summary}
+            topic={note.data.topic}
+            project={note.data.project ? projectTitles.get(note.data.project.id) : undefined}
+            href={`/notes/${note.id}/`}
+          />
+        ))}
+      </div>
+    ) : (
+      <p class="notes-empty">No notes published yet.</p>
+    )}
   </section>
 
   <section id="how" class="how-section" aria-labelledby="how-title">
@@ -101,6 +120,7 @@ const stats = [
 
 <style>
   .notes-section { padding-block: 24px 96px; }
+  .notes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 20px; }
   .notes-empty { margin: 0; padding-block: 28px; border-block: 1px solid var(--line); color: var(--muted); }
   .how-section { color: var(--invert-ink); background: var(--invert-ground); }
   .practice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 0 40px; border-top: 2px solid var(--invert-ink); }

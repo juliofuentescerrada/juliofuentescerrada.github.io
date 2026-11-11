@@ -1,0 +1,45 @@
+---
+import type { Note } from '../lib/notes';
+import { formatNoteDate } from '../lib/notes';
+import { getEntry } from 'astro:content';
+
+interface Props {
+  notes: Note[];
+}
+const { notes } = Astro.props;
+const rows = await Promise.all(
+  notes.map(async (note) => {
+    const project = note.data.project ? await getEntry(note.data.project) : undefined;
+    return { note, project: project?.data.title };
+  }),
+);
+---
+<ul class="note-list">
+  {rows.map(({ note, project }) => (
+    <li>
+      <a href={`/notes/${note.id}/`}>
+        <span class="note-list-meta">
+          <time datetime={note.data.date.toISOString().slice(0, 10)}>{formatNoteDate(note.data.date)}</time>
+          <span>{[project, note.data.topic].filter(Boolean).join(' · ')}</span>
+          {note.data.draft && <span class="note-list-draft">Draft</span>}
+        </span>
+        <span class="note-list-text">
+          <span class="note-list-title">{note.data.title}</span>
+          <span class="note-list-summary">{note.data.summary}</span>
+        </span>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .note-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--ink); }
+  .note-list li { border-bottom: 1px solid var(--line); }
+  .note-list a { display: flex; flex-wrap: wrap; gap: 8px 32px; padding-block: 26px; text-decoration: none; }
+  .note-list-meta { flex: 1 1 200px; display: flex; flex-direction: column; gap: 2px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
+  .note-list-draft { color: var(--accent); }
+  .note-list-text { flex: 3 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+  .note-list-title { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 22px; line-height: 1.25; color: var(--ink); }
+  .note-list a:hover .note-list-title { color: var(--accent); }
+  .note-list-summary { font-size: 15px; color: var(--body); }
+</style>
