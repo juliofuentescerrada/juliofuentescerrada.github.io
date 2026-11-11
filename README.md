@@ -6,7 +6,7 @@ This README describes the site and its planned extensions. Contributor instructi
 
 ## Current status
 
-The home page includes the hero, at-a-glance figures, five collection-backed project cards, AI workflow, technologies and experience. Project copy comes from the approved prototype; experience shows titles and dates only. Notes show an empty state until M3, and case-study pages begin in M2. Run `npm install` and `npm run dev` locally (Node 22.23.4 or newer). GitHub Pages is configured to deploy with GitHub Actions. Browser-based visual and keyboard review remains pending.
+The home page includes the hero, at-a-glance figures, five collection-backed project cards, the latest notes, AI workflow, technologies and experience. Project copy comes from the approved prototype; experience shows titles and dates only. Notes (M3) have an index with topic pages, a page per note and an RSS feed; the home page shows an empty state until the first note is published. Case-study pages begin in M2. Run `npm install` and `npm run dev` locally (Node 22.23.4 or newer). GitHub Pages is configured to deploy with GitHub Actions. Browser-based visual and keyboard review remains pending.
 
 The five project repositories are currently private. Their links are retained at the owner’s request and require repository access; this site does not change their visibility.
 
@@ -25,6 +25,7 @@ The five project repositories are currently private. Their links are retained at
 | `/` | Home: hero, at-a-glance figures, projects, latest notes, how I develop with AI, technologies, experience, contact | `src/pages/index.astro` |
 | `/projects/<id>/` | Case study | `src/content/projects/*.md` |
 | `/notes/` | Notes index, filterable by topic | `src/pages/notes/index.astro` |
+| `/notes/topics/<topic>/` | Notes on one topic | `src/pages/notes/topics/[topic].astro` |
 | `/notes/<id>/` | Single note | `src/content/notes/*.md` |
 | `/rss.xml` | Feed of published notes | `src/pages/rss.xml.ts` |
 
@@ -94,16 +95,22 @@ date: 2026-01-01
 project: arcana                        # optional, id of a project
 topic: Applied AI                      # one of the topics below
 tags: [RAG, Evaluation]
+takeaways:                             # one or more, shown in the takeaways box
+  - Decide what the system does when its sources fall short.
 draft: true
 ```
 
-Body sections: The problem, What I tried, What worked, The trade-off, What I would change, Takeaways.
+Body sections, in this order: The problem, What I tried, What worked, The trade-off, What I would change. The takeaways live in the frontmatter, not in the body, so the note page can show them in their own box.
 
-**Topics:** Applied AI, Azure, .NET, Angular, Architecture, Data, AI-assisted development.
+**Topics:** Applied AI, Azure, .NET, Angular, Architecture, Data, Product, Security, AI-assisted development. The list lives in `src/lib/note-topics.ts`; the schema rejects any other value.
+
+**Images and diagrams** for a note go in `public/notes/<project>/` and are referenced from the body with an absolute path and a descriptive alt text. Notes are read in a 720px column and at phone width, so diagrams are drawn for that width (vertical rather than wide) with the site’s colors.
+
+**Writing a note:** follow the `write-project-note` skill in `.claude/skills/write-project-note/SKILL.md`. It covers researching a project repository, brainstorming, drafting, visuals and validation.
 
 Project `draft` defaults to `true`; `caseStudyPublished` defaults to `false`. A non-draft project appears on the home page even when its case study is unpublished; its card links to its repository and optional demo. All five initial project cards are public, with empty, unpublished case-study bodies. M2 will generate case-study routes and previous/next links only for non-draft projects with `caseStudyPublished: true`.
 
-The planned notes collection retains the single `draft` publication flag. Draft entries must be excluded from public pages, indexes and feeds. `NoteCard` is prepared for that milestone; M1 does not publish the prototype’s sample notes or introduce note routes.
+Notes use the single `draft` flag, which defaults to `true`. Drafts are shown, marked as drafts, by `npm run dev` so they can be reviewed in place, and are excluded from every build: no page, no entry in the index or topic pages, no card on the home page and no feed item. To publish a note, set `draft: false` and merge to `main`.
 
 ## Design system
 
@@ -118,6 +125,7 @@ The approved look is dark, high-contrast and typographic: oversized headings, ha
   --muted:   #98A2AC;   /* labels, metadata */
   --line:    #2A3038;   /* rules and borders */
   --accent:  #C6F432;   /* single accent */
+  --accent-surface: #1B2114; /* note takeaways box */
   --invert-ground: #F4F6F8;  /* light section background */
   --invert-ink:    #0B0D10;
 }

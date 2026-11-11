@@ -1,6 +1,6 @@
 # Roadmap
 
-Milestones for building the site, in order. Each one ends with something deployed. Tick tasks as they are completed. Project context is in [README.md](./README.md); contributor rules are in [AGENTS.md](./AGENTS.md). The M0 application foundation is deployed on GitHub Pages. The owner authorized proceeding to M1 while browser QA remains pending. Content publication requires owner-supplied or owner-validated facts; retain placeholders in unpublished entries.
+Milestones for building the site, in order. Each one ends with something deployed. Tick tasks as they are completed. Project context is in [README.md](./README.md); contributor rules are in [AGENTS.md](./AGENTS.md). The M0 application foundation is deployed on GitHub Pages. The owner authorized proceeding to M1 while browser QA remains pending, and moved M3 (notes) ahead of M2. Content publication requires owner-supplied or owner-validated facts; retain placeholders in unpublished entries.
 
 ## M0 · Foundation and first deployment
 
@@ -38,6 +38,25 @@ Milestones for building the site, in order. Each one ends with something deploye
 
 **Done when:** the home page matches the prototype and every link works.
 
+## M3 · Notes
+
+**Goal:** the notes section works end to end and has its first entries.
+
+The owner moved this milestone ahead of M2 on 2026-11-11, so the first notes can be published before the first case study.
+
+- [x] `notes` schema, with `draft` entries excluded from build, index and feed
+- [x] `notes/index.astro`: list ordered by date, topic filter (static topic pages under `/notes/topics/`)
+- [x] `notes/[id].astro`: article layout, code blocks, takeaways box, related links
+- [x] Latest three notes on the home page, from the collection
+- [ ] “What I learned” links from case studies to notes (needs the M2 case-study template)
+- [x] `rss.xml` and feed link in `<head>`
+- [x] Reusable instructions for writing notes: the `write-project-note` skill
+- [ ] Owner supplies or validates the first two notes; resolve placeholders and dates before publication (first draft: Pauper Pilot, spec-driven development)
+
+**Implementation notes:** drafts are visible in `npm run dev`, marked as drafts, and absent from `npm run build` output; this was verified with the first draft note. Topics now include Product and Security. Takeaways are a frontmatter list rendered in their own box. The note pages were checked at 360px, 768px and 1280px in a headless browser with no horizontal overflow; keyboard review is still pending.
+
+**Done when:** two notes are live, appear on the home page and in the feed, and a draft stays hidden.
+
 ## M2 · First published case study
 
 **Goal:** Arcana has a published case study using the existing projects collection.
@@ -50,20 +69,6 @@ Milestones for building the site, in order. Each one ends with something deploye
 - [ ] Previous / next navigation between published case studies only
 
 **Done when:** `/projects/arcana/` is live with no placeholders, and the other four project cards remain public with repository links and `caseStudyPublished: false`.
-
-## M3 · Notes
-
-**Goal:** the notes section works end to end and has its first entries.
-
-- [ ] `notes` schema, with `draft` entries excluded from build, index and feed
-- [ ] `notes/index.astro`: list ordered by date, topic filter
-- [ ] `notes/[id].astro`: article layout, code blocks, takeaways box, related links
-- [ ] Latest three notes on the home page, from the collection
-- [ ] “What I learned” links from case studies to notes
-- [ ] `rss.xml` and feed link in `<head>`
-- [ ] Owner supplies or validates the first two notes; resolve placeholders and dates before publication
-
-**Done when:** two notes are live, appear on the home page and in the feed, and a draft stays hidden.
 
 ## M4 · Remaining case studies
 
