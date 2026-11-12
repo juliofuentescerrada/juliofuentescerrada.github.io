@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 916" width="400" height="916" role="img" aria-labelledby="t d">
+  <title id="t">The pieces of Arcana’s RAG pipeline</title>
+  <desc id="d">Once per rulebook release, the rulebook is parsed and validated, split into chunks and turned into embeddings, which are stored in PostgreSQL with pgvector. On every question, Arcana finds the cards the question names, runs a vector search over the stored chunks, reranks the results, adds the rules they reference, generates an answer with citations, validates the citations and streams the answer. If reranking finds nothing relevant, or the citations fail twice, Arcana says it does not know and shows the closest rules. Only the generation step writes the answer.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#98A2AC"/>
+    </marker>
+    <style>
+      .bg { fill: #0B0D10; }
+      .box { fill: #14181D; stroke: #2A3038; stroke-width: 1.5; }
+      .key { fill: #14181D; stroke: #C6F432; stroke-width: 2; }
+      .h { font-family: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 16px; fill: #F4F6F8; }
+      .s { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; font-size: 14px; fill: #C5CCD3; }
+      .sec { font-family: 'JetBrains Mono', 'Consolas', monospace; font-size: 12px; fill: #98A2AC; letter-spacing: 0.04em; }
+      .lbl { font-family: 'JetBrains Mono', 'Consolas', monospace; font-size: 12px; fill: #98A2AC; }
+      .acc { fill: #C6F432; }
+      .ln { fill: none; stroke: #98A2AC; stroke-width: 1.5; }
+      .dash { fill: none; stroke: #98A2AC; stroke-width: 1.5; stroke-dasharray: 5 5; }
+      .rule { stroke: #2A3038; stroke-width: 1; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="400" height="916"/>
+
+  <!-- Ingestion -->
+  <text class="sec" x="20" y="28">ONCE PER RULEBOOK RELEASE</text>
+
+  <rect class="box" x="20" y="40" width="230" height="56"/>
+  <text class="h" x="34" y="63">Parse and validate</text>
+  <text class="s" x="34" y="84">one stored version each</text>
+
+  <rect class="box" x="20" y="118" width="230" height="56"/>
+  <text class="h" x="34" y="141">Split into chunks</text>
+  <text class="s" x="34" y="162">1,936 in the latest version</text>
+
+  <rect class="box" x="20" y="196" width="230" height="56"/>
+  <text class="h" x="34" y="219">Embed</text>
+  <text class="s" x="34" y="240">1,536 numbers per chunk</text>
+
+  <path class="ln" d="M135 96 V116" marker-end="url(#a)"/>
+  <path class="ln" d="M135 174 V194" marker-end="url(#a)"/>
+
+  <!-- Store -->
+  <rect class="box" x="268" y="196" width="120" height="56"/>
+  <text class="h" x="280" y="219">PostgreSQL</text>
+  <text class="s" x="280" y="240">+ pgvector</text>
+  <path class="ln" d="M250 224 H266" marker-end="url(#a)"/>
+
+  <line class="rule" x1="20" y1="284" x2="380" y2="284"/>
+
+  <!-- Every question -->
+  <text class="sec" x="20" y="310">EVERY QUESTION</text>
+
+  <rect class="box" x="20" y="322" width="230" height="56"/>
+  <text class="h" x="34" y="345">Find named cards</text>
+  <text class="s" x="34" y="366">name matching, no model</text>
+
+  <rect class="box" x="20" y="400" width="230" height="56"/>
+  <text class="h" x="34" y="423">Vector search</text>
+  <text class="s" x="34" y="444">the 50 closest chunks</text>
+
+  <rect class="box" x="20" y="478" width="230" height="56"/>
+  <text class="h" x="34" y="501">Rerank</text>
+  <text class="s" x="34" y="522">a chat model keeps 10</text>
+
+  <rect class="box" x="20" y="556" width="230" height="56"/>
+  <text class="h" x="34" y="579">Expand references</text>
+  <text class="s" x="34" y="600">add the rules they cite</text>
+
+  <rect class="key" x="20" y="634" width="230" height="56"/>
+  <text class="h" x="34" y="657">Generate</text>
+  <text class="s acc" x="34" y="678">the only step that writes</text>
+
+  <rect class="box" x="20" y="712" width="230" height="56"/>
+  <text class="h" x="34" y="735">Validate citations</text>
+  <text class="s" x="34" y="756">one retry if one fails</text>
+
+  <rect class="box" x="20" y="790" width="230" height="56"/>
+  <text class="h" x="34" y="813">Stream the answer</text>
+  <text class="s" x="34" y="834">to the browser</text>
+
+  <path class="ln" d="M135 378 V398" marker-end="url(#a)"/>
+  <path class="ln" d="M135 456 V476" marker-end="url(#a)"/>
+  <path class="ln" d="M135 534 V554" marker-end="url(#a)"/>
+  <path class="ln" d="M135 612 V632" marker-end="url(#a)"/>
+  <path class="ln" d="M135 690 V710" marker-end="url(#a)"/>
+  <path class="ln" d="M135 768 V788" marker-end="url(#a)"/>
+
+  <!-- Search reads the store -->
+  <path class="ln" d="M328 252 V428 H252" marker-end="url(#a)"/>
+
+  <!-- Abstention -->
+  <rect class="box" x="268" y="590" width="120" height="78"/>
+  <text class="h" x="280" y="614">“I don’t</text>
+  <text class="h" x="280" y="634">know”</text>
+  <text class="s" x="280" y="656">+ closest rules</text>
+  <path class="dash" d="M250 506 H328 V588" marker-end="url(#a)"/>
+  <text class="lbl" x="336" y="550">nothing</text>
+  <text class="lbl" x="336" y="566">relevant</text>
+  <path class="dash" d="M250 740 H328 V670" marker-end="url(#a)"/>
+  <text class="lbl" x="336" y="700">fails</text>
+  <text class="lbl" x="336" y="716">twice</text>
+
+  <text class="lbl" x="20" y="878">Answer: a citation for every claim,</text>
+  <text class="lbl" x="20" y="896">like [CR 702.35a]</text>
+</svg>
