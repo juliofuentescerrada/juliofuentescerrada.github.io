@@ -10,7 +10,7 @@ takeaways:
   - "If the document has structure, use it before reaching for fixed-size windows."
   - "A short piece needs its context: carry the path of headings above it."
   - "Chunk size is a parameter to measure, not a default to copy: smaller is not automatically more precise."
-draft: true
+draft: false
 ---
 
 ## The problem
