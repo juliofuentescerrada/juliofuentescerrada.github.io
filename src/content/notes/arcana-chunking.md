@@ -68,7 +68,7 @@ The unit is also coarser than the citation. A chunk holds a rule and all its sub
 
 ## What I would change
 
+- **Measure the default I argued against.** I ruled out fixed-size windows on principle and only measured smaller chunks. A run with windows of a few hundred tokens and some overlap would have shown how much the structure actually adds to search, not just to citations.
 - **A bigger test set before trusting small differences.** With 76 questions, a change of two points in recall cannot be told apart from noise. The verdict on keyword search was clear; the one on vector search only says “no evidence it helps”. More questions would turn that into a real answer.
-- [PLACEHOLDER: anything else you would do differently about chunking, if any]
 
 Next in the series: embeddings and vector search, and why they beat keyword search on the same questions.
