@@ -57,8 +57,6 @@ takeaways:                       # 3–4 transferable lessons, shown in their ow
 draft: true
 ```
 
-Quote any frontmatter value that contains `: ` (a title such as `"Splitting a document for RAG: let its structure decide"`); unquoted, it breaks the YAML and the build.
-
 Body sections, in this order, as `##` headings: The problem, What I tried, What worked, The trade-off, What I would change. Do not add a Takeaways section to the body.
 
 Writing rules (see also “Writing guidelines” in `README.md`):
