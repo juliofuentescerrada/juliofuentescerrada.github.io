@@ -51,7 +51,7 @@ The owner moved this milestone ahead of M2 on 2026-11-11, so the first notes can
 - [ ] “What I learned” links from case studies to notes (needs the M2 case-study template)
 - [x] `rss.xml` and feed link in `<head>`
 - [x] Reusable instructions for writing notes: the `write-project-note` skill
-- [ ] Owner supplies or validates the first two notes; resolve placeholders and dates before publication (first published on 2026-11-11: Pauper Pilot, spec-driven development; one more to go)
+- [x] Owner supplies or validates the first two notes; resolve placeholders and dates before publication (Pauper Pilot, spec-driven development, 2026-11-11; Arcana, what RAG is, 2026-11-12)
 
 **Implementation notes:** drafts are visible in `npm run dev`, marked as drafts, and absent from `npm run build` output; this was verified with the first draft note. Topics now include Product and Security. Takeaways are a frontmatter list rendered in their own box. The note pages were checked at 360px, 768px and 1280px in a headless browser with no horizontal overflow; keyboard review is still pending.
 

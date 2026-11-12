@@ -1,7 +1,7 @@
 ---
 title: What RAG is, and the pieces I used to build one
 summary: Retrieval-augmented generation is usually drawn as three boxes; building Arcana taught me that almost all the work, and almost all the risk, is in the box before the model.
-date: 2026-11-11
+date: 2026-11-12
 project: arcana
 topic: Applied AI
 tags: [RAG, Embeddings, pgvector, Microsoft Foundry]
@@ -10,7 +10,7 @@ takeaways:
   - "Most of a RAG system is not the model call. Plan for ingestion, search, ranking and checks, not just a prompt."
   - "Use the simplest tool that finds the right text: plain name matching and an ordinary database went a long way."
   - "Know the alternative you are beating. If the whole corpus fits in the prompt, RAG has to justify itself on cost, speed and accuracy."
-draft: true
+draft: false
 ---
 
 ## The problem
