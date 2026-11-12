@@ -10,7 +10,7 @@ takeaways:
   - "Embedding a small corpus costs almost nothing. Store a hash of each text so you only pay, and wait, for what changed."
   - "Put the model behind an interface and reach it with an identity, not a key: moving it then becomes a configuration change."
   - "Treat any change to the embedding deployment as a change to the data: re-embed and measure again, even when the model name is the same."
-draft: true
+draft: false
 ---
 
 ## The problem
