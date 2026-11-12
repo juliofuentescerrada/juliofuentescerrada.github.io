@@ -110,7 +110,7 @@ Body sections, in this order: The problem, What I tried, What worked, The trade-
 
 Project `draft` defaults to `true`; `caseStudyPublished` defaults to `false`. A non-draft project appears on the home page even when its case study is unpublished; its card links to its repository and optional demo. All five initial project cards are public, with empty, unpublished case-study bodies. M2 will generate case-study routes and previous/next links only for non-draft projects with `caseStudyPublished: true`.
 
-Notes use the single `draft` flag, which defaults to `true`. Drafts are shown, marked as drafts, by `npm run dev` so they can be reviewed in place, and are excluded from every build: no page, no entry in the index or topic pages, no card on the home page and no feed item. To publish a note, set `draft: false` and merge to `main`.
+Notes use the single `draft` flag, which defaults to `true`. Drafts are shown, marked as drafts, by `npm run dev` so they can be reviewed in place, and are excluded from every build: no page, no entry in the index or topic pages, no card on the home page and no feed item. Drafts live only in the note’s branch and pull request, never on `main`: the owner reviews the note in the pull request, it is approved by setting `draft: false` and the final date there, and it is merged with squash, so every commit on `main` is a published version (the `write-project-note` skill describes the steps).
 
 ## Design system
 
