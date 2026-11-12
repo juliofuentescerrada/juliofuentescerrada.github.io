@@ -24,4 +24,6 @@ Write site content in English. Never invent facts: retain placeholders and keep 
 
 Follow the initial commit’s descriptive imperative style. Use small, focused commits. PRs should explain purpose and validation, link relevant issues when available, and include screenshots for visual changes.
 
+Every change reaches `main` through a pull request merged with squash, after the owner’s review in that pull request; never push to `main`. `main` holds only published versions: notes are drafted and reviewed in their own branch and pull request and reach `main` already published (`draft: false`). Delete the branch after the merge. This repository is public, so branches and pull requests are public too.
+
 Work on one roadmap milestone at a time. Tick completed tasks in the same change only when supported by evidence. Do not complete missing portfolio content on the owner’s behalf.

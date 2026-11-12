@@ -43,7 +43,7 @@ Agree on a short series (about five notes) with one thesis per note, the cases e
 
 ## 4. Draft
 
-Create `src/content/notes/<id>.md` with `draft: true`. The id is lowercase and hyphenated, starting with the project id (`pauper-pilot-spec-driven-development`).
+Create a branch for the note from the latest `main` (one note per branch, such as `note/<id>`), and in it create `src/content/notes/<id>.md` with `draft: true`. The id is lowercase and hyphenated, starting with the project id (`pauper-pilot-spec-driven-development`). The draft never reaches `main`: see “Publish”.
 
 ```yaml
 title: Where spec-driven development actually paid off
@@ -56,6 +56,8 @@ takeaways:                       # 3–4 transferable lessons, shown in their ow
   - With an AI agent, the scarce resource is not code but well-defined decisions.
 draft: true
 ```
+
+Quote any frontmatter value that contains `: ` (a title such as `"Splitting a document for RAG: let its structure decide"`); unquoted, it breaks the YAML and the build.
 
 Body sections, in this order, as `##` headings: The problem, What I tried, What worked, The trade-off, What I would change. Do not add a Takeaways section to the body.
 
@@ -84,12 +86,18 @@ While drafting, tell the owner where a diagram or image would help (a process lo
 ## 6. Validate
 
 1. `npm run check` and `npm run build` with no errors or warnings.
-2. Confirm the draft is absent from `dist/` (no page, no index entry, no feed item).
+2. While the note is a draft, confirm it is absent from `dist/` (no page, no index entry, no feed item).
 3. Run `npm run dev` and review the note, the index, its topic page and the home page at 360px, 768px and 1280px: no horizontal overflow, readable tables and diagrams.
 
-## 7. Publish
+## 7. Review and publish
 
-1. Commit on a branch and open a pull request with the purpose, the validation done and screenshots. The draft can be merged as a draft: it stays out of the build.
-2. The owner reviews the text and confirms every fact, the date and the links.
-3. Publishing is a separate, small change: set `draft: false` (and the final `date`), run the checks again and merge to `main`. The workflow deploys to GitHub Pages.
-4. Tick the related tasks in `ROADMAP.md` only with evidence.
+`main` only holds published versions of the site: every commit on it is one pull request, squashed, and a note reaches it only when it is published. Drafts never reach `main`. This repository is public, so its branches and pull requests are public too: anything pushed can be read before it is published.
+
+1. **Review happens in the pull request.** Push the note’s branch and open a pull request titled `Publish note: <title>`, with the purpose, the validation done and screenshots. The owner reviews the text there (or first in the conversation, if they want a draft kept off GitHub) and confirms every fact, the date and the links. Fixes are new commits on the same branch.
+2. **Approval turns the draft into the published version.** In the same pull request, set `draft: false` and the final `date`, tick any related `ROADMAP.md` tasks only with evidence, and run the checks again.
+3. **Merge with squash, only when the owner says so.** The squashed commit takes the pull request’s title, so `main` reads as a list of publications. The workflow deploys to GitHub Pages; check the run.
+4. **Delete the branch after the merge,** so nothing unpublished or outdated stays visible.
+5. **Changing or removing a published note** follows the same path: a pull request titled `Update note: <title>` or `Remove note: <title>`, reviewed and squashed.
+6. **Abandoning a draft** that never reached `main` means deleting its branch and closing its pull request, if there is one.
+
+Changes to the site itself (pages, styles, this skill) also go through a pull request with squash, titled by what they change.
